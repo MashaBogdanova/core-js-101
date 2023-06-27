@@ -181,8 +181,17 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const symbArr = str.split('');
+  let final = null;
+  for (let i = 0; i < symbArr.length; i += 1) {
+    const symbolCounter = symbArr.filter((s) => s === symbArr[i]).length;
+    if (symbolCounter === 1) {
+      final = symbArr[i];
+      break;
+    }
+  }
+  return final;
 }
 
 
@@ -225,8 +234,10 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('')
+    .reverse()
+    .join('');
 }
 
 
@@ -242,8 +253,11 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return Number(num.toString()
+    .split('')
+    .reverse()
+    .join(''));
 }
 
 
@@ -285,10 +299,16 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const digitsStrArr = num.toString()
+    .split('');
+  const digitsArr = digitsStrArr.map((d) => Number(d));
+  let digitsSum = digitsArr.reduce((sum, cur) => sum + cur);
+  while (digitsSum > 9) {
+    digitsSum = getDigitalRoot(digitsSum);
+  }
+  return digitsSum;
 }
-
 
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
@@ -311,8 +331,26 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    '[': ']',
+    '(': ')',
+    '{': '}',
+    '<': '>',
+  };
+  const arr = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    if (Object.keys(brackets).includes(char)) {
+      arr.push(char);
+    } else if (Object.values(brackets).includes(char)) {
+      if (arr.length === 0 || brackets[arr.pop()] !== char) {
+        return false;
+      }
+    }
+  }
+  return arr.length === 0;
 }
 
 
